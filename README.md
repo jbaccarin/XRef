@@ -1,10 +1,11 @@
-# Data analysis
-- Document here the project: xref
-- Description: Project Description
-- Data Source:
-- Type of analysis:
+# xref - a Code Authenticity Detector
 
-Please document the project the better you can.
+Xref is a python tool to analyze code authorship attribution. It provides a model to determine who wrote a particular piece of code. You can clone it, apply it to the given dataset or even train it with you own dataset.
+
+The project was set up as part of the Le Wagon Bootcamp. It includes
+- functions to prepare the Google Code Jam dataset, which can be found here
+- different modeling approaches (Naive Bayes, RNN, CNN, LinearSVC)
+- functions for model initalization, training, prediction and evaluation
 
 # Startup the project
 

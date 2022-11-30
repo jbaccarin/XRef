@@ -25,8 +25,15 @@ clean:
 	@rm -fr xref-*.dist-info
 	@rm -fr xref.egg-info
 
+reinstall_package:
+	@pip uninstall -y xref || :
+	@pip install -e .
+
 install:
 	@pip install . -U
+
+run_api:
+	uvicorn api.fast:app --reload
 
 all: clean install test black check_code
 

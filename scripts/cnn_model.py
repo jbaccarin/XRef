@@ -157,7 +157,6 @@ def predict(code:str)-> np.ndarray:
     print(Fore.BLUE + "\nPredict author..." + Style.RESET_ALL)
     # Load model
     model = pickle.load(open("models/cnn.pkl","rb"))
-    breakpoint()
     # predict with model
     #prediction = model.predict_proba(code)
 

@@ -44,10 +44,15 @@ def preprocess_data(data:pd.DataFrame)->pd.DataFrame:
     return data
 
 
-def encode_y(data:pd.DataFrame)->pd.DataFrame:
+def encode_y(data:pd.DataFrame, save_encoder = True)->pd.DataFrame:
     target_encoder = LabelEncoder().fit(data['username'])
     y = target_encoder.transform(data['username'])
+    if save_encoder is True:
+        pickle.dump(target_encoder, open(os.path.join(os.getcwd(),'models/svc_target_encoder.pkl'), 'wb'))
+
     return y, target_encoder
+
+
 
 def create_model():
     pipeline_svc = make_pipeline(
@@ -138,7 +143,7 @@ def save_model(model = None,
 
 
 
-def predict(code:str)-> np.ndarray:
+def predict_svc(code:str)-> np.ndarray:
     """
     Accepts a piece of code as an input, to predict its author as a return.
     :param code: a given peace of code.
@@ -149,20 +154,58 @@ def predict(code:str)-> np.ndarray:
     # Load model
     model = pickle.load(open("models/linearsvc.pkl","rb"))
 
+    # load target encoder
+    #target_encoder = LabelEncoder()
+    #target_encoder.classes = np.load('svc_target_encoder.npy', allow_pickle=True)
+
+    target_encoder = pickle.load(open(os.path.join(os.getcwd(),'models/svc_target_encoder.pkl'),"rb"))
+
     # predict with model
     prediction = model.predict(np.array([code], dtype=object))
-    print(prediction)
+    prediction_encoded = target_encoder.inverse_transform(prediction)
+    print(prediction_encoded)
     # TODO inverse_transform the result
     print(f"\n✅ Prediction done!")
-    return prediction
+    return prediction_encoded
 
 
-#data = pd.read_csv('raw_data/preprocessed_dataset.csv')[:1000]
+data = pd.read_csv('raw_data/preprocessed_dataset.csv')
 
-#data = preprocess_data(data = data)
+data = preprocess_data(data = data)
 
-#y, target_encoder = encode_y(data = data)
+y, target_encoder = encode_y(data = data)
 
 #X = data["code_source"]
 
-predict("Lass uns diesen Code mal testen")
+
+
+sourcecode = """
+
+     }
+ }
+
+ int main()
+ {
+     int T;
+
+     cin >> T;
+     for (int ct = 0; ct < T; ++ct)
+     {
+         int r, c, n, d;
+         cin >> r >> c >> n >> d;
+         vector<vector<long long>> v(r, vector<long long>(c, 1000000000000000000ll));
+         vector<vector<bool>> fixed(r, vector<bool>(c, false));
+
+         for (int i = 0; i < n; ++i)
+         {
+             int x, y;
+             long long z;
+             cin >> x >> y >> z;
+             x--;
+             y--;
+             v[x][y] = z;
+             fixed[x][y] = true;
+         }
+
+        """
+predict_svc(sourcecode)

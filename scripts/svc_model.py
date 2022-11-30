@@ -11,10 +11,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import recall_score
 from sklearn.model_selection import train_test_split
 from sklearn.svm import LinearSVC
-from xgboost import XGBClassifier
 from skopt import BayesSearchCV
 from skopt.space import Real, Categorical, Integer
-import xgboost as xgb
 from sklearn.metrics import accuracy_score
 from hyperopt import STATUS_OK, Trials, fmin, hp, tpe
 import matplotlib.pyplot as plt
@@ -143,7 +141,7 @@ def save_model(model = None,
 
 
 
-def predict_svc(code:str)-> np.ndarray:
+def predict_svc(code:str):
     """
     Accepts a piece of code as an input, to predict its author as a return.
     :param code: a given peace of code.
@@ -152,7 +150,7 @@ def predict_svc(code:str)-> np.ndarray:
     print(Fore.BLUE + "\nPredict author..." + Style.RESET_ALL)
 
     # Load model
-    model = pickle.load(open("models/linearsvc.pkl","rb"))
+    model = pickle.load(open(os.path.join(os.getcwd(),"models/linearsvc.pkl"),"rb"))
 
     # load target encoder
     #target_encoder = LabelEncoder()
@@ -161,51 +159,68 @@ def predict_svc(code:str)-> np.ndarray:
     target_encoder = pickle.load(open(os.path.join(os.getcwd(),'models/svc_target_encoder.pkl'),"rb"))
 
     # predict with model
-    prediction = model.predict(np.array([code], dtype=object))
+    prediction = model.predict(np.array([str(code)], dtype=object))
+    prediction_score_array = model.decision_function(np.array([str(code)], dtype=object))
+    prediction_score = dict(zip(target_encoder.classes_, prediction_score_array[0]))
+
     prediction_encoded = target_encoder.inverse_transform(prediction)
-    print(prediction_encoded)
+    #print(prediction_encoded)
+    #print(prediction_score)
+    #print(type(prediction_encoded))
     # TODO inverse_transform the result
+
+    # get 5 highest probabilities
+    x=list(prediction_score.values())
+    d=dict()
+    x.sort(reverse=True)
+    x=x[:5]
+    for i in x:
+        for j in prediction_score.keys():
+            if(prediction_score[j]==i):
+                d[j] = prediction_score[j]
+    print(d)
     print(f"\n✅ Prediction done!")
-    return prediction_encoded
+
+    return str(prediction_encoded[0]), d
 
 
-data = pd.read_csv('raw_data/preprocessed_dataset.csv')
+#data = pd.read_csv('raw_data/preprocessed_dataset.csv')
 
-data = preprocess_data(data = data)
+#data = preprocess_data(data = data)
 
-y, target_encoder = encode_y(data = data)
+#y, target_encoder = encode_y(data = data)
 
 #X = data["code_source"]
 
 
 
-sourcecode = """
-
-     }
- }
-
- int main()
- {
-     int T;
-
-     cin >> T;
-     for (int ct = 0; ct < T; ++ct)
-     {
-         int r, c, n, d;
-         cin >> r >> c >> n >> d;
-         vector<vector<long long>> v(r, vector<long long>(c, 1000000000000000000ll));
-         vector<vector<bool>> fixed(r, vector<bool>(c, false));
-
-         for (int i = 0; i < n; ++i)
-         {
-             int x, y;
-             long long z;
-             cin >> x >> y >> z;
-             x--;
-             y--;
-             v[x][y] = z;
-             fixed[x][y] = true;
-         }
-
-        """
-predict_svc(sourcecode)
+#sourcecode = """
+#
+#    }
+#}
+#
+#int main()
+#{
+#    int T;
+#
+#    cin >> T;
+#    for (int ct = 0; ct < T; ++ct)
+#    {
+#        int r, c, n, d;
+#        cin >> r >> c >> n >> d;
+#        vector<vector<long long>> v(r, vector<long long>(c, 1000000000000000000ll));
+#        vector<vector<bool>> fixed(r, vector<bool>(c, false));
+#
+#        for (int i = 0; i < n; ++i)
+#        {
+#            int x, y;
+#            long long z;
+#            cin >> x >> y >> z;
+#            x--;
+#            y--;
+#            v[x][y] = z;
+#            fixed[x][y] = true;
+#        }
+#
+#       """
+#predict_svc(sourcecode)

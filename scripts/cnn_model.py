@@ -148,23 +148,38 @@ def train_model(model: Model,
     return model, history
 
 
-def predict(code:str)-> np.ndarray:
+def predict_cnn(code:str):
     """
     Accepts a piece of code as an input, to predict its author as a return.
     :param code: a given peace of code.
     :return: returns an array containing one or more predictions of authors for the given peaces of code
     """
     print(Fore.BLUE + "\nPredict author..." + Style.RESET_ALL)
+
     # Load model
-    model = pickle.load(open("models/cnn.pkl","rb"))
+    model = pickle.load(open("models/tfidf_nn_default_10k.pkl","rb"))
+    # load tfdidf vectorizer
+    tfidf_vectorizer = pickle.load(open("models/tfidf_vec.pkl","rb"))
+
+    # tfidf-transform code
+    code_tfidf = tfidf_vectorizer.transform([code])
+    print(code_tfidf.dtype)
+
+    code_tfidf = code_tfidf.astype("float32")
+    print(code_tfidf.dtype)
+
+    print("vectorized code")
+    print(code_tfidf)
+    print('predict with model')
     # predict with model
-    #prediction = model.predict_proba(code)
+    print(model)
+    prediction=model.predict(code_tfidf)
 
-    predict_prob=model.predict(code)
-
+    prediction_proba =np.argmax(prediction, axis=1)
+    # = model.predict_proba(np.array([str(code)], dtype=object))
     # TODO inverse_transform the result
     print(f"\n✅ Prediction done!")
-    return predict_prob
+    return prediction, prediction_proba
     # return prediction_inversed
 
 
@@ -286,4 +301,35 @@ def load_model(save_copy_locally=False) -> Model:
 #                   X= X_test,
 #                   y= y_test,
 #                   batch_size=64)
-predict(code = "test_code")
+
+sourcecode = """
+
+    }
+}
+
+int main()
+{
+    int T;
+
+    cin >> T;
+    for (int ct = 0; ct < T; ++ct)
+    {
+        int r, c, n, d;
+        cin >> r >> c >> n >> d;
+        vector<vector<long long>> v(r, vector<long long>(c, 1000000000000000000ll));
+        vector<vector<bool>> fixed(r, vector<bool>(c, false));
+
+        for (int i = 0; i < n; ++i)
+        {
+            int x, y;
+            long long z;
+            cin >> x >> y >> z;
+            x--;
+            y--;
+            v[x][y] = z;
+            fixed[x][y] = true;
+        }
+
+       """
+
+predict_cnn(sourcecode)

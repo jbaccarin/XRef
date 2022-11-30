@@ -3,6 +3,8 @@ FROM tensorflow/tensorflow:2.10.0
 COPY api /api
 COPY requirements.txt /requirements.txt
 COPY scripts /scripts
+COPY models /models
+# COPY raw_data /raw_data
 # COPY requirements_prod.txt /requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt

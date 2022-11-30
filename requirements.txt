@@ -8,20 +8,12 @@ wheel>=0.29
 numpy
 pandas
 scikit-learn
-tensorflow
 
-# tests/linter
-black
-coverage
-flake8
-pytest
-yapf
+#tensorflow
+scikit-optimize
+hyperopt
 
 # API
-gcsfs
-google-cloud-storage
-mlflow
-s3fs
 fastapi
 pytz
 uvicorn
@@ -37,3 +29,15 @@ typing
 # tests
 httpx
 pytest-asyncio
+
+
+entrypoints
+gensim
+ipykernel
+matplotlib
+nltk
+pickleshare
+requests
+scipy
+seaborn
+streamlit

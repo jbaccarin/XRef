@@ -8,6 +8,7 @@ wheel>=0.29
 numpy
 pandas
 scikit-learn
+tensorflow >=
 
 # tests/linter
 black
@@ -21,9 +22,16 @@ gcsfs
 google-cloud-storage
 mlflow
 s3fs
+fastapi
+pytz
+uvicorn
 
 # utilities
 six>=1.14
 joblib
 memoized-property
 termcolor
+
+# tests
+httpx
+pytest-asyncio

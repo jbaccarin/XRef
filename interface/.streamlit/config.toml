@@ -1,0 +1,14 @@
+[theme]
+
+
+primaryColor = 'purple'
+
+
+backgroundColor = '#273346'
+
+
+secondaryBackgroundColor = '#111222'
+
+textColor = '#DDDDDD'
+
+base = 'dark'

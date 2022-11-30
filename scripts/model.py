@@ -156,14 +156,16 @@ def predict(code:str)-> np.ndarray:
     """
     print(Fore.BLUE + "\nPredict author..." + Style.RESET_ALL)
     # Load model
-    model = pickle.load(open("model.pkl","rb"))
-
+    model = pickle.load(open("models/cnn.pkl","rb"))
+    breakpoint()
     # predict with model
-    prediction = model.predict_proba(code)
+    #prediction = model.predict_proba(code)
+
+    predict_prob=model.predict(code)
 
     # TODO inverse_transform the result
     print(f"\n✅ Prediction done!")
-    return prediction
+    return predict_prob
     # return prediction_inversed
 
 
@@ -260,29 +262,29 @@ def load_model(save_copy_locally=False) -> Model:
 
 
 # read data
-data= pd.read_csv('raw_data/preprocessed_dataset.csv')[:1000]
-X = data["code_source"]
-y = label_encode(y = data["username"])
-data_tokenized, vocab_size = tokenize(X = X)
-print(data_tokenized)
-print(vocab_size)
+#data= pd.read_csv('raw_data/preprocessed_dataset.csv')[:1000]
+#X = data["code_source"]
+#y = label_encode(y = data["username"])
+#data_tokenized, vocab_size = tokenize(X = X)
+#print(data_tokenized)
+#print(vocab_size)##
 
-model = initialize_model(X_pad=data_tokenized,
-                         y = y,
-                         vocab_size = vocab_size)
-
-
-compile_model(model = model)
+#model = initialize_model(X_pad=data_tokenized,
+#                         y = y,
+#                         vocab_size = vocab_size)
 
 
-model, history = train_model(model = model,
-                X_pad = data_tokenized,
-                y = y)
+#compile_model(model = model)
 
-save_model(model = model)
+
+#model, history = train_model(model = model,
+#                X_pad = data_tokenized,
+#                y = y)
+
+#save_model(model = model)
 
 #metrics = evaluate_model(model= model,
 #                   X= X_test,
 #                   y= y_test,
 #                   batch_size=64)
-#predict()
+predict(code = "test_code")

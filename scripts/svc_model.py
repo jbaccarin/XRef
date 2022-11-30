@@ -56,7 +56,7 @@ def create_model():
     )
     return pipeline_svc
 
-def tune_model(model = pipeline_svc, X_train = None, X_test = None, y_train = None, y_test = None):
+def tune_model(model = None, X_train = None, X_test = None, y_train = None, y_test = None):
     bs_opt = BayesSearchCV(
     model,
      {
@@ -147,20 +147,22 @@ def predict(code:str)-> np.ndarray:
     print(Fore.BLUE + "\nPredict author..." + Style.RESET_ALL)
 
     # Load model
-    model = pickle.load(open("linearsvc_model.pkl","rb"))
+    model = pickle.load(open("models/linearsvc.pkl","rb"))
 
     # predict with model
-    prediction = model.predict_proba(code)
-
+    prediction = model.predict(np.array([code], dtype=object))
+    print(prediction)
     # TODO inverse_transform the result
     print(f"\n✅ Prediction done!")
     return prediction
 
 
-data = pd.read_csv('raw_data/preprocessed_dataset.csv')[:1000]
+#data = pd.read_csv('raw_data/preprocessed_dataset.csv')[:1000]
 
-data = preprocess_data(data = data)
+#data = preprocess_data(data = data)
 
-y, target_encoder = encode_y(data = data)
+#y, target_encoder = encode_y(data = data)
 
-X = data["code_source"]
+#X = data["code_source"]
+
+predict("Lass uns diesen Code mal testen")

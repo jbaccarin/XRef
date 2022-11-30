@@ -13,11 +13,14 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.python.keras.callbacks import EarlyStopping
 from tensorflow.python.keras import Model, Sequential, layers, regularizers, optimizers
+from tensorflow.keras.utils import to_categorical
 from colorama import Fore, Style
 import pickle
 from typing import Tuple
 import os
 import time
+import glob
+import models
 
 
 
@@ -43,12 +46,21 @@ def tokenize(X:np.ndarray):
     print("\n✅ Source code tokenized")
     return X_pad, vocab_size
 
+
+
 def label_encode(y:np.ndarray)->np.ndarray:
     target_encoder = LabelEncoder().fit(y)
     target_encoded = target_encoder.transform(y)
-    return target_encoded
 
-def initialize_model(X_pad: np.ndarray, y = np.ndarray, vocab_size = None) -> Model:
+    target_cat = to_categorical(target_encoded,
+                                num_classes = len(np.unique(target_encoded)))
+
+    return target_cat
+
+
+def initialize_model(X_pad: np.ndarray,
+                     y = np.ndarray,
+                     vocab_size = None) -> Model:
     """
     Initialize the CNN with random weights
     """
@@ -77,7 +89,7 @@ def initialize_model(X_pad: np.ndarray, y = np.ndarray, vocab_size = None) -> Mo
         layers.Conv1D(128, kernel_size=9),
         layers.MaxPool1D(pool_size = (4)),
         layers.Flatten(),
-        layers.Dense(len(np.unique(y)), activation="softmax"),  # check if we need to input the number of categories in softmax
+        layers.Dense(y.shape[1], activation="softmax"),  # check if we need to input the number of categories in softmax
         ])
 
     print("\n✅ Model initialized. Summary:")
@@ -113,11 +125,10 @@ def train_model(model: Model,
                 validation_split=0.2
                 ) -> Tuple[Model, dict]:
     """
-    Fit model and return a the tuple (fitted_model, history)
+    Fit model and return a tuple (fitted_model, history)
     """
 
     print(Fore.BLUE + "\nTrain model..." + Style.RESET_ALL)
-
     # TODO Discuss: should we use monitor?
     es = EarlyStopping(patience=10,
                        restore_best_weights=True,
@@ -132,7 +143,7 @@ def train_model(model: Model,
                       validation_split=validation_split,
                       callbacks=[es])
 
-    print(f"\n✅ model trained ({len(X_pad)} rows)")
+    print(f"\n✅ Model trained ({len(X_pad)} rows)")
 
     return model, history
 
@@ -143,7 +154,7 @@ def predict(code:str)-> np.ndarray:
     :param code: a given peace of code.
     :return: returns an array containing one or more predictions of authors for the given peaces of code
     """
-
+    print(Fore.BLUE + "\nPredict author..." + Style.RESET_ALL)
     # Load model
     model = pickle.load(open("model.pkl","rb"))
 
@@ -151,6 +162,7 @@ def predict(code:str)-> np.ndarray:
     prediction = model.predict_proba(code)
 
     # TODO inverse_transform the result
+    print(f"\n✅ Prediction done!")
     return prediction
     # return prediction_inversed
 
@@ -218,13 +230,37 @@ def save_model(model: Model = None,
         print(f"- model path: {model_path}")
         model.save(model_path)
 
-    print("\n✅ data saved locally")
+    print("\n✅ Data saved locally")
 
     return None
 
 
+# TODO not working yet - check paths?
+def load_model(save_copy_locally=False) -> Model:
+    """
+    load the latest saved model, return None if no model found
+    """
+    print(Fore.BLUE + "\nLoad model from local disk..." + Style.RESET_ALL)
+
+    # get latest model version
+    model_directory = os.path.join("models")
+
+    results = glob.glob(f"{model_directory}/*")
+    if not results:
+        return None
+
+    model_path = sorted(results)[-1]
+    print(f"- path: {model_path}")
+
+    model = models.load_model(model_path)
+    print("\n✅ model loaded from disk")
+
+    return model
+
+
+
 # read data
-data= pd.read_csv('raw_data/preprocessed_dataset.csv')
+data= pd.read_csv('raw_data/preprocessed_dataset.csv')[:1000]
 X = data["code_source"]
 y = label_encode(y = data["username"])
 data_tokenized, vocab_size = tokenize(X = X)
@@ -239,8 +275,12 @@ model = initialize_model(X_pad=data_tokenized,
 compile_model(model = model)
 
 
-#train_model()
-#save_model(model)
+model, history = train_model(model = model,
+                X_pad = data_tokenized,
+                y = y)
+
+save_model(model = model)
+
 #metrics = evaluate_model(model= model,
 #                   X= X_test,
 #                   y= y_test,

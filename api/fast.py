@@ -39,5 +39,5 @@ def predict_cnn_api(code:str):
     """
     import json
 
-    author, prob = predict_cnn(code)
-    return {'author': author, 'probabilities': prob}
+    author, prob, tfidf_df = predict_cnn(code)
+    return {'author': author, 'probabilities': prob, 'top_terms': tfidf_df}

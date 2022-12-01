@@ -168,11 +168,23 @@ def predict_cnn(code:str):
     code_tfidf = tfidf_vectorizer.transform([code])
     code_tfidf = code_tfidf.astype("float32")
 
+    #print(tfidf_vectorizer.get_feature_names())
+
+    tfidf_df = pd.DataFrame(code_tfidf.toarray(), columns=tfidf_vectorizer.get_feature_names())
+    tfidf_df.round(decimals=2)
+    tfidf_df = tfidf_df.stack().reset_index()
+    tfidf_df = tfidf_df.rename(columns={0:'tfidf', 'level_0': 'document','level_1': 'term'})
+    tfidf_df.drop(['document'], axis = 1, inplace = True)
+    tfidf_df = tfidf_df.sort_values(by=['tfidf'], ascending=False).head(15)
+
+    #print("code_tfidf")
+    #print(code_tfidf)
     # predict with model
     prediction_proba=model.predict(code_tfidf)
     prediction = target_encoder.inverse_transform([np.argmax(pred) for pred in prediction_proba])
 
     prediction_proba_list = dict(zip(target_encoder.classes_, prediction_proba[0].tolist()))
+    tfidf_dict = dict(zip(tfidf_df.term, tfidf_df.tfidf.tolist()))
 
     # get 5 highest probabilities
     x=list(prediction_proba_list.values())
@@ -188,7 +200,7 @@ def predict_cnn(code:str):
     print(prediction)
     print(top5)
 
-    return str(prediction[0]) , top5
+    return str(prediction[0]) , top5, tfidf_dict
     # return prediction_inversed
 
 
@@ -341,11 +353,11 @@ def load_model(save_copy_locally=False) -> Model:
 #
 #       """
 #
-#a, b = predict_cnn(sourcecode)
-#
+#a, b, c = predict_cnn(sourcecode)
+#print(c)
 #print(type(a))
 #print(type(b))
-
+#print(type(c))
 
 #data = pd.read_csv('raw_data/preprocessed_dataset.csv')
 #target_encoder = LabelEncoder().fit(data['username'])

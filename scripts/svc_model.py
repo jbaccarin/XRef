@@ -250,5 +250,5 @@ def predict_svc(code:str):
 #       """
 #a, b = predict_svc(sourcecode)
 #
-#print(type(a))
+#print(type)
 #print(type(b))

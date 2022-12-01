@@ -157,29 +157,38 @@ def predict_cnn(code:str):
     print(Fore.BLUE + "\nPredict author..." + Style.RESET_ALL)
 
     # Load model
-    model = pickle.load(open("models/tfidf_nn_default_10k.pkl","rb"))
+    model = pickle.load(open("models/tfidf_nn.pkl","rb"))
     # load tfdidf vectorizer
     tfidf_vectorizer = pickle.load(open("models/tfidf_vec.pkl","rb"))
 
+    # load label_encoder
+    target_encoder = pickle.load(open("models/nn_target_encoder.pkl","rb"))
+
     # tfidf-transform code
     code_tfidf = tfidf_vectorizer.transform([code])
-    print(code_tfidf.dtype)
-
     code_tfidf = code_tfidf.astype("float32")
-    print(code_tfidf.dtype)
 
-    print("vectorized code")
-    print(code_tfidf)
-    print('predict with model')
     # predict with model
-    print(model)
-    prediction=model.predict(code_tfidf)
+    prediction_proba=model.predict(code_tfidf)
+    prediction = target_encoder.inverse_transform([np.argmax(pred) for pred in prediction_proba])
 
-    prediction_proba =np.argmax(prediction, axis=1)
-    # = model.predict_proba(np.array([str(code)], dtype=object))
-    # TODO inverse_transform the result
+    prediction_proba_list = dict(zip(target_encoder.classes_, prediction_proba[0].tolist()))
+
+    # get 5 highest probabilities
+    x=list(prediction_proba_list.values())
+    top5=dict()
+    x.sort(reverse=True)
+    x=x[:5]
+    for i in x:
+        for j in prediction_proba_list.keys():
+            if(prediction_proba_list[j]==i):
+                top5[j] = prediction_proba_list[j]
+
     print(f"\n✅ Prediction done!")
-    return prediction, prediction_proba
+    print(prediction)
+    print(top5)
+
+    return str(prediction[0]) , top5
     # return prediction_inversed
 
 
@@ -302,34 +311,43 @@ def load_model(save_copy_locally=False) -> Model:
 #                   y= y_test,
 #                   batch_size=64)
 
-sourcecode = """
+#sourcecode = """
+#
+#    }
+#}
+#
+#int main()
+#{
+#    int T;
+#
+#    cin >> T;
+#    for (int ct = 0; ct < T; ++ct)
+#    {
+#        int r, c, n, d;
+#        cin >> r >> c >> n >> d;
+#        vector<vector<long long>> v(r, vector<long long>(c, 1000000000000000000ll));
+#        vector<vector<bool>> fixed(r, vector<bool>(c, false));
+#
+#        for (int i = 0; i < n; ++i)
+#        {
+#            int x, y;
+#            long long z;
+#            cin >> x >> y >> z;
+#            x--;
+#            y--;
+#            v[x][y] = z;
+#            fixed[x][y] = true;
+#        }
+#
+#       """
+#
+#a, b = predict_cnn(sourcecode)
+#
+#print(type(a))
+#print(type(b))
+#
 
-    }
-}
-
-int main()
-{
-    int T;
-
-    cin >> T;
-    for (int ct = 0; ct < T; ++ct)
-    {
-        int r, c, n, d;
-        cin >> r >> c >> n >> d;
-        vector<vector<long long>> v(r, vector<long long>(c, 1000000000000000000ll));
-        vector<vector<bool>> fixed(r, vector<bool>(c, false));
-
-        for (int i = 0; i < n; ++i)
-        {
-            int x, y;
-            long long z;
-            cin >> x >> y >> z;
-            x--;
-            y--;
-            v[x][y] = z;
-            fixed[x][y] = true;
-        }
-
-       """
-
-predict_cnn(sourcecode)
+#data = pd.read_csv('raw_data/preprocessed_dataset.csv')
+#target_encoder = LabelEncoder().fit(data['username'])
+#y = target_encoder.transform(data['username'])
+#pickle.dump(target_encoder, open(os.path.join(os.getcwd(),'models/nn_target_encoder.pkl'), 'wb'))

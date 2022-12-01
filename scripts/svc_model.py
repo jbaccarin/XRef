@@ -59,17 +59,29 @@ def create_model():
     )
     return pipeline_svc
 
-def tune_model(model = None, X_train = None, X_test = None, y_train = None, y_test = None):
+
+
+def train_model(model = None, data = None):
+
+    # define X and y
+    X = data["name"]
+    y = data["source_code"]
+
+    #train_test_split
+    X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                        test_size=0.30,
+                                                        random_state=42)
+
     bs_opt = BayesSearchCV(
     model,
      {
-         'linearsvc__C': Real(low=0.001, high=10, prior='log-uniform', transform='identity'),
+         'linearsvc__C': Real(low=0.1, high=10, prior='log-uniform', transform='identity'),
          'tfidfvectorizer__min_df': Integer(low=0, high=150, prior='uniform'),
          'tfidfvectorizer__max_df': Real(low=0.2, high=0.35, prior='uniform'),
          #'tfidfvectorizer__ngram_range':  Categorical([(1,1), (1,2)])
          #'tfidfvectorizer__ngram_range': Categorical([(1,1), (1,2), (1,3), (1,4), (1,5),(2, 2), (3,3), (4,4), (5,5)])
      },
-     n_iter=32,
+     n_iter=15,
      random_state=0
     )
 
@@ -80,7 +92,7 @@ def tune_model(model = None, X_train = None, X_test = None, y_train = None, y_te
     grid_search = GridSearchCV(
         model,
         {
-        'tfidfvectorizer__ngram_range': [(2,2), (3, 3), (4, 4), (5, 5), (1, 2), (1, 3), (1, 4), (1, 5)],
+        'tfidfvectorizer__ngram_range': [(1, 1),(2, 2), (3, 3), (1, 2), (1, 3), (1, 4)],
         'linearsvc__C': [bs_opt.best_params_["linearsvc__C"]],
         'tfidfvectorizer__min_df': [bs_opt.best_params_["tfidfvectorizer__min_df"]],
         'tfidfvectorizer__max_df': [bs_opt.best_params_["tfidfvectorizer__max_df"]],
@@ -103,6 +115,19 @@ def tune_model(model = None, X_train = None, X_test = None, y_train = None, y_te
 
     return bs_opt_tuned
 
+
+def evaluate_model(model = None, data = None):
+    # define X and y
+    X = data["name"]
+    y = data["source_code"]
+
+    #train_test_split
+    X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                        test_size=0.30,
+                                                        random_state=42)
+
+
+    return model.score(X_test, y_test)
 
 def save_model(model = None,
                params: dict = None,
@@ -178,11 +203,11 @@ def predict_svc(code:str):
         for j in prediction_score.keys():
             if(prediction_score[j]==i):
                 d[j] = prediction_score[j]
+    print(prediction_encoded)
     print(d)
     print(f"\n✅ Prediction done!")
 
     return str(prediction_encoded[0]), d
-
 
 #data = pd.read_csv('raw_data/preprocessed_dataset.csv')
 
@@ -223,4 +248,7 @@ def predict_svc(code:str):
 #        }
 #
 #       """
-#predict_svc(sourcecode)
+#a, b = predict_svc(sourcecode)
+#
+#print(type(a))
+#print(type(b))

@@ -14,7 +14,7 @@ def index():
     return {'ok': True}
 
 # Predict route
-@app.get('/predict_author with linearSVC')
+@app.get('/Predict_author_with_SVC ')
 def predict_svc_api(code:str):
     """
     Accepts a piece of code as an input, to predict its author as a return.
@@ -30,12 +30,14 @@ def predict_svc_api(code:str):
     return {'author': author, 'probabilities': prob}
     #return {'author': author, 'probabilities': prob.tolist()}
 
-@app.get('/predict_author with NN')
+@app.get('/predict_author_with_NN')
 def predict_cnn_api(code:str):
     """
     Accepts a piece of code as an input, to predict its author as a return.
     :param code: a given peace of code.
     :return: returns an array containing one or more predictions of authors for the given peaces of code
     """
+    import json
+
     author, prob = predict_cnn(code)
-    return{'author': author, 'probabilities': prob}
+    return {'author': author, 'probabilities': prob}

@@ -19,7 +19,7 @@ def main():
 
     # Title
     st.title("Code Recognizer Φ")
-	
+
     #3. User Input
     user_input = st.text_area("Enter the code below.")
 
@@ -38,7 +38,7 @@ def main():
     if direction == 'Code':
         st.write('')
     elif direction == 'Naive Bayes':
-        st.markdown ('Naive Bayes')    
+        st.markdown ('Naive Bayes')
         st.write('''
  is a supervised learning algorithm, which is based on Bayes theorem and used for solving classification problems.
 It is mainly used in text classification that includes a high-dimensional training dataset.
@@ -66,49 +66,49 @@ Application:
 ''')
     else:
         st.write('◀️')
-    
+
     st.sidebar.subheader("Code Recognizer Φ")
     st.sidebar.info(
-     """  About: 
-     
+     """  About:
+
         What:
-        _ Criado no ano de 2022 no batch 1011 do 
-        Le Wagon Brasil o  “Code Recognizer" é um 
-        aplicativo que usa inteligência artificial 
-        para identificar o autor de um código de 
-        programação. 
-        _ Multilingual model: 
+        _ Criado no ano de 2022 no batch 1011 do
+        Le Wagon Brasil o  “Code Recognizer" é um
+        aplicativo que usa inteligência artificial
+        para identificar o autor de um código de
+        programação.
+        _ Multilingual model:
         3 languages: java, C++, python
-        
-        Why: 
+
+        Why:
         _ Identify malicious software
         _ Solve intellectual property disputes
-        _ Tell who's Jr from who's Sr 
-        
-        How: 
-        _ Google's Code Jam archives as a dataset 
-        - Famous coding competition hosted by Google. 
-        _ Thousands of solutions to comparable problems. 
+        _ Tell who's Jr from who's Sr
+
+        How:
+        _ Google's Code Jam archives as a dataset
+        - Famous coding competition hosted by Google.
+        _ Thousands of solutions to comparable problems.
         _ Data from 2008 to 2020.
         _ Tested Models: Naive Bayes, RNN e CNN
         _ Features Selection : > 9 features
-        _ Estudo de Referência: Code authorship 
+        _ Estudo de Referência: Code authorship
           identification using convolutional neural
           networks University, Incheon, South Korea)
-        
-        How: 
-        _ Google's Code Jam archives (*as a dataset) 
-        _ Famous coding competition hosted by Google. 
+
+        How:
+        _ Google's Code Jam archives (*as a dataset)
+        _ Famous coding competition hosted by Google.
         _ Thousands of solutions to comparable problems.
         _ Data from 2008 to 2020.
         _ Modelos Testados: Naive Bayes, RNN e CNN
         _ Features Selection : > 9 features
         _ Estudo de Referência: Code authorship identification using convolutional neural networks University, Incheon, South Korea
-""")     
-        
+""")
+
     st.sidebar.text("""
         Created by
-        
+
         https://www.linkedin.com/in/joaopaulobaccarin/
         https://www.linkedin.com/in/rafaelincao
         https://www.linkedin.com/in/timcerta/

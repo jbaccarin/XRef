@@ -344,8 +344,8 @@ def load_model(save_copy_locally=False) -> Model:
 #a, b = predict_cnn(sourcecode)
 #
 #print(type(a))
-#print(type(b))
-#
+print(type(b))
+
 
 #data = pd.read_csv('raw_data/preprocessed_dataset.csv')
 #target_encoder = LabelEncoder().fit(data['username'])

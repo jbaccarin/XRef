@@ -3,6 +3,7 @@ import tarfile
 import numpy as np
 from io import BytesIO
 from urllib.request import urlopen
+from google.cloud import storage
 
 import pandas as pd
 import seaborn as sns
@@ -72,12 +73,10 @@ def clean_data(df, **kwargs):
     return df
 
 
-def join_files():
+def join_clean_dataset():
     tar_path = os.path.join(os.path.dirname(os.getcwd()),'raw_data')
     raw_files = os.listdir(tar_path)
     cleaned_path = os.path.join(os.path.dirname(os.getcwd()),'raw_data/cleaned_dataset.csv')
-
-    # dff = pd.DataFrame(columns=['year','round','username','task','file_name','code_source','code_lang', 'code_len'])
 
     if os.path.isfile(cleaned_path):
         os.remove(cleaned_path)
@@ -87,7 +86,7 @@ def join_files():
         pass
     
     for csv_file in raw_files:
-        if csv_file.endswith('.csv'):
+        if (csv_file.endswith('.csv')) and ("gcj" in csv_file) :
             fullcsvpath = os.path.join(tar_path, csv_file)
             
             # specifying which columns to use here is more efficient than having to drop them afterwards
@@ -122,13 +121,6 @@ def features_preprocessing(df):
     # removing too short, too lenghty code - based on most frequent coders
     df = df.query('code_len > 500 and code_len < 15000')
     
-    # keeping only developers who participated in more than 4 rounds and 50% fo the competition
-    top_authors = df.groupby(['username', 'year'], as_index=False).agg({'round':'nunique', 'task': 'nunique'})
-    top_authors = top_authors.sort_values('round', ascending=False)
-    top_authors = top_authors[(top_authors['round']>=5) & (top_authors['task']>=12)]
-    ta_list = top_authors['username']
-    df = df[df['username'].isin(ta_list)]
-    
     # sorting columns and rows
     df = df[['username', 'year', 'round','task', 'code_len', 'code_lang', 'code_source']]
     df = df.sort_values(['username','year', 'round','code_len'], ascending=True)
@@ -159,8 +151,40 @@ def features_preprocessing(df):
                                      and x['next_username'] == x['username']
                                      and x['next_year'] == x['year']
                                      else 0.0, axis=1)
-    # rearranging fields 
+    
+    # removing code that looks too similar
     df = df[df['string_distance']<0.9]
+    
+    # keeping only developers who participated in more than 4 rounds and 50% fo the competition
+    top_authors = df.groupby(['username', 'year'], as_index=False).agg({'round':'nunique', 'task': 'nunique'})
+    top_authors = top_authors.sort_values('round', ascending=False)
+    top_authors = top_authors[(top_authors['round']>=5) & (top_authors['task']>=12)]
+    ta_list = top_authors['username']
+    df = df[df['username'].isin(ta_list)]
+    
+    # rearranging fields 
     df = df[['username', 'year', 'round', 'task', 'code_len', 'code_lang', 'code_source', 'next_code_cut', 'string_distance']]
     
     return df
+
+def gcs_upload(df):
+
+    preproc_path = os.path.join(os.path.dirname(os.getcwd()),'raw_data/preproc_data.csv')
+    
+    if not os.path.isfile(preproc_path):
+        df.to_csv(preproc_path, header=df.columns, index=False)
+    else:
+        pass
+    
+    if BUCKET_NAME = os.environ['BUCKET_NAME'] is None
+    BUCKET_NAME="lewagon-jbaccarin-bucket"
+
+    storage_filename = "preproc_dataset/preproc_data.csv"
+    local_filename = preproc_path
+
+    client = storage.Client()
+    bucket = client.bucket(BUCKET_NAME)
+    blob = bucket.blob(storage_filename)
+    blob.upload_from_filename(local_filename)
+    
+    return print(f"Dataset sent to {BUCKET_NAME}")

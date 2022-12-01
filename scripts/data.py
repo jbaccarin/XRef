@@ -176,8 +176,10 @@ def gcs_upload(df):
     else:
         pass
     
-    if BUCKET_NAME = os.environ['BUCKET_NAME'] is None
-    BUCKET_NAME="lewagon-jbaccarin-bucket"
+    if os.environ['BUCKET_NAME'] is None:
+        BUCKET_NAME="lewagon-jbaccarin-bucket"
+    else:
+        BUCKET_NAME = os.environ['BUCKET_NAME']
 
     storage_filename = "preproc_dataset/preproc_data.csv"
     local_filename = preproc_path

@@ -116,10 +116,12 @@ def train_model(model = None, data = None):
     return bs_opt_tuned
 
 
-def evaluate_model(model = None, data = None):
+def evaluate_model(data = None):
+    # Load model
+    model = pickle.load(open(os.path.join(os.getcwd(),"models/linearsvc.pkl"),"rb"))
     # define X and y
-    X = data["name"]
-    y = data["source_code"]
+    X = data["code_source"]
+    y = data["username"]
 
     #train_test_split
     X_train, X_test, y_train, y_test = train_test_split(X, y,

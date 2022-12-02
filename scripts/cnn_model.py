@@ -157,7 +157,8 @@ def predict_cnn(code:str):
     print(Fore.BLUE + "\nPredict author..." + Style.RESET_ALL)
 
     # Load model
-    model = pickle.load(open("models/tfidf_nn.pkl","rb"))
+    model = pickle.load(open("models/tfidf_cnn.pkl","rb"))
+    
     # load tfdidf vectorizer
     tfidf_vectorizer = pickle.load(open("models/tfidf_vec.pkl","rb"))
 

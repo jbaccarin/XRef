@@ -158,9 +158,9 @@ def predict_cnn(code:str):
 
     # Load model
     model = pickle.load(open("models/tfidf_cnn.pkl","rb"))
-    
+
     # load tfdidf vectorizer
-    tfidf_vectorizer = pickle.load(open("models/tfidf_vec.pkl","rb"))
+    tfidf_vectorizer = pickle.load(open("models/tfidf_vec_cnn.pkl","rb"))
 
     # load label_encoder
     target_encoder = pickle.load(open("models/nn_target_encoder.pkl","rb"))

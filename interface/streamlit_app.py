@@ -14,6 +14,9 @@ st.set_page_config(page_title="Xref - Code Authorship Attribution", page_icon="�
 ##  Load and Prep Data                  ##
 ##########################################
 
+url = 'https://taxi-instance-tf3z57rlzq-ew.a.run.app'
+predict_url = "https://taxi-instance-tf3z57rlzq-ew.a.run.app/predict_author_with_NN?code=https%3A%2F%2Ftaxi-instance-tf3z57rlzq-ew.a.run.app"
+
 ##########################################
 ##  Style and Formatting                ##
 ##########################################
@@ -76,8 +79,6 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
-
-
 
 ##########################################
 ##  Title, Tabs, and Sidebar            ##
@@ -144,11 +145,6 @@ with tab_cnn:
     st.markdown("---")
 
     user_input = st.text_area("Enter the code below.", )
-
-    #Calling API
-    url = 'https://xref-app-tf3z57rlzq-ew.a.run.app'
-    predict_url = "https://xref-app-tf3z57rlzq-ew.a.run.app/predict_author_with_NN?code=https%3A%2F%2Ftaxi-instance-tf3z57rlzq-ew.a.run.app"
-
 
     # Find out the author for the given piece of code
     if st.button('Find out code author'):
@@ -238,13 +234,10 @@ with tab_faq:
     expand_faq1 = st.expander("Why use TF-IDF instead of other vectorizers? ")
     with expand_faq1:
 
-        st.write('''It's well known among basketball lovers that an NBA player's salary often doesn't reflect his true market value.  Most players play on guaranteed multi-year contracts, over the course of which their performance may improve or deteriorate, often dramatically;  yet their salaries remain locked-in.  A useful method for determining any player's fair market value could prove worthwhile both for team executives (to exploit inefficiencies and assemble a competitive team on a budget) and for regular fans (to quantify how overpaid or underpaid their favorite players really are).
-
-What, then, is an NBA player's true market value?  To answer this most pressing of society's questions, I came up with a simple but surprisingly powerful approach. Every year, out of several hundred NBA players, about 150 become free agents and sign new contracts.  My idea here was to focus exclusively on this subset of players in line for a new contract, to see if I could train a model to predict their new salaries from their previous year's stats.
-By looking at all free agents over the course of several years, we can use machine learning techniques to uncover a mapping from a player's stats in the last year of his contract to his resulting new salary the following year.  The key insight is that once we have this mapping in hand, we can then retroactively apply it to ALL players (not just free agents).  In other words, we can answer the question: "*If Player X were a free agent this year*, what kind of new salary would he command based on his current stats?"  It is important to note that my model is not making a normative judgment ("this is a good player/ this is a bad player").  Rather, it is saying: "in the recent past, players in line for a new contract— with stats like those of Player X this year— could expect to get Salary Y."  ''', unsafe_allow_html=True)
+        st.write('''''', unsafe_allow_html=True)
 
     ##########
-    expand_faq2 = st.expander("What machine learning model did we use?")
+    expand_faq2 = st.expander("Which machine/deep learning models did we use?")
     with expand_faq2:
 
         st.write('''I tried various regression, classification, and hybrid approaches and found that using  a Random Forest Classifier as my predictive model gave accurate and meaningful results. A Random Forest is an ensemble model consisting of thousands of Decision Trees, with each tree constructed from a random bootstrapped sample of players in the training set; each node on each tree is split using a random sample of the feature (input) variables. The values of hyperparameters such as maximum tree depth and  number of features considered at each node were arrived at via grid search optimization.

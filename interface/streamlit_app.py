@@ -104,7 +104,7 @@ st.sidebar.markdown(" # Created by")
 st.sidebar.markdown("João Baccarin [LinkedIn](https://www.linkedin.com/in/joaopaulobaccarin/)")
 st.sidebar.markdown("Tim Certa [LinkedIn](https://www.linkedin.com/in/timcerta/)")
 st.sidebar.markdown("Thomas Grumberg [LinkedIn](https://www.linkedin.com/in/thomasgrumberg)")
-st.sidebar.markdown("Rafael Incao [lLinkedIn](https://www.linkedin.com/in/rafaelincao)")
+st.sidebar.markdown("Rafael Incao [LinkedIn](https://www.linkedin.com/in/rafaelincao)")
 st.sidebar.info("ℹ️ Read more about our project and check the code at: [Github](https://github.com/jbaccarin/xref).")
 
 ##########################################
@@ -123,6 +123,68 @@ with tab_nn:
         - Adam Optimizer''')
     st.markdown('''Accuracy on test data: **89%**''')
     st.markdown("---")
+    
+    
+
+    user_input = st.text_area("Enter the code below.", )
+
+    #Calling API
+    url = 'https://xref-app-tf3z57rlzq-ew.a.run.app'
+    predict_url = "https://xref-app-tf3z57rlzq-ew.a.run.app/predict_author_with_NN?code=https%3A%2F%2Ftaxi-instance-tf3z57rlzq-ew.a.run.app"
+
+
+    # Find out the author for the given piece of code
+    if st.button('Find out code author'):
+        with st.spinner('Wait for it...'):
+            st.write('Please wait, the author is being identified...')
+        params = dict(
+                code=[user_input]
+            )
+
+        print('Author is being identified')
+        st.write(" ")
+        st.write(" ")
+
+        response = requests.get(predict_url, params).json()
+        res = response["author"]
+        proba = response["probabilities"]
+        st.success('Done!')
+        # Return result
+        st.subheader(f"The predicted author is {res}!")
+
+
+        st.write(" ")
+        st.write(" ")
+
+        # Calculate and display probabilities
+        #st.subheader(f"Top 5 probabilities among all programmers:")
+        #st.bar_chart(data = data_)
+        data_ = pd.DataFrame.from_dict(proba, orient='index')
+        data_.rename({0:'Probability'},inplace=True,axis=1)
+        data_['Probability'] = (data_['Probability']*100).astype(int)
+        data_ = data_.reset_index()
+        data_.rename({"index":'Author'},inplace=True,axis=1)
+        fig=px.bar(data_,x='Author',y='Probability', orientation='v', title='<span style="font-size: 30px;">Top 5 probabilities among all programmers</span>')
+        fig.update_layout(height=400, width = 770, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+
+        st.plotly_chart(fig)
+
+
+        st.write(" ")
+        st.write(" ")
+
+        # Calculate and show tfidf terms
+        #st.subheader("Most important terms identified by tf-idf vectorizer:")
+        top_terms_dict = response["top_terms"]
+        topterms = pd.DataFrame.from_dict(top_terms_dict, orient='index')
+        topterms.rename({0:'Tfidf'},inplace=True,axis=1)
+        topterms = topterms.reset_index()
+        topterms.rename({'index':'Term'},inplace=True,axis=1)
+        #st.table(data = topterms)
+        fig=px.bar(topterms,x='Term',y='Tfidf', orientation='v', title='<span style="font-size: 30px;">Most important terms identified by tf-idf vectorizer</span>')
+        fig.update_layout(height=400, width = 770, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+
+        st.plotly_chart(fig)
 
 ##########################################
 ## CNN Tab                              ##
@@ -142,7 +204,7 @@ with tab_cnn:
 
     st.markdown('''Accuracy on test data: **92%**''')
     st.markdown("---")
-
+    
     user_input = st.text_area("Enter the code below.", )
 
     #Calling API

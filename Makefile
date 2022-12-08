@@ -30,9 +30,7 @@ reinstall_package:
 	@pip install -e .
 
 download_models:
-	@gsutil -m cp -r \
-  "gs://lewagon-jbaccarin-bucket/models" \
-  .
+	@gsutil -m cp -r "gs://lewagon-jbaccarin-bucket/models" .
 
 install:
 	@pip install . -U

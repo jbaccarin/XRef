@@ -167,7 +167,7 @@ with tab_nn:
         res = None
         proba = None
         
-        path_nn = "predict_nn"
+        path_nn = "predict_with_nn"
         predict_url_nn = urljoin(base_url, path_nn)
         
         response = requests.get(predict_url_nn, params).json()
@@ -249,7 +249,7 @@ with tab_cnn:
         res = None
         proba = None
         
-        path_cnn = "predict_cnn"
+        path_cnn = "predict_with_cnn"
         predict_url_cnn = urljoin(base_url, path_cnn)
         
         response = requests.get(predict_url_cnn, params).json()
@@ -333,7 +333,7 @@ with tab_svc:
         res = None
         proba = None
         
-        path_svc = "predict_svc"
+        path_svc = "predict_with_svc"
         predict_url_svc = urljoin(base_url, path_svc)
         
         response = requests.get(predict_url_svc, params).json()

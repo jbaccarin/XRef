@@ -27,8 +27,6 @@ from colorama import Fore, Style
 import os
 
 
-
-
 def preprocess_data(data:pd.DataFrame)->pd.DataFrame:
     # Remove NAs
     data = data.dropna()

@@ -1,23 +1,13 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import cross_validate
 from sklearn.pipeline import make_pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import recall_score
-from sklearn.model_selection import cross_val_score
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
+from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics import recall_score
 from sklearn.model_selection import train_test_split
 from sklearn.svm import LinearSVC
 from skopt import BayesSearchCV
 from skopt.space import Real, Categorical, Integer
-from sklearn.metrics import accuracy_score
-from hyperopt import STATUS_OK, Trials, fmin, hp, tpe
-import matplotlib.pyplot as plt
-from sklearn.datasets import make_classification
-from sklearn.metrics import plot_confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
@@ -25,6 +15,16 @@ import time
 import pickle
 from colorama import Fore, Style
 import os
+# from sklearn.naive_bayes import MultinomialNB
+# from sklearn.metrics import recall_score
+# from sklearn.model_selection import cross_validate
+# from sklearn.model_selection import cross_val_score
+# from sklearn.metrics import recall_score 
+# from sklearn.metrics import accuracy_score
+# from hyperopt import STATUS_OK, Trials, fmin, hp, tpe
+# import matplotlib.pyplot as plt
+# from sklearn.datasets import make_classification
+# from sklearn.metrics import plot_confusion_matrix
 
 
 def preprocess_data(data:pd.DataFrame)->pd.DataFrame:
@@ -208,47 +208,3 @@ def predict_svc(code:str):
     print(f"\n✅ Prediction done!")
 
     return str(prediction_encoded[0]), d
-
-#data = pd.read_csv('raw_data/preprocessed_dataset.csv')
-
-#data = preprocess_data(data = data)
-
-#y, target_encoder = encode_y(data = data)
-
-#X = data["code_source"]
-
-
-
-#sourcecode = """
-#
-#    }
-#}
-#
-#int main()
-#{
-#    int T;
-#
-#    cin >> T;
-#    for (int ct = 0; ct < T; ++ct)
-#    {
-#        int r, c, n, d;
-#        cin >> r >> c >> n >> d;
-#        vector<vector<long long>> v(r, vector<long long>(c, 1000000000000000000ll));
-#        vector<vector<bool>> fixed(r, vector<bool>(c, false));
-#
-#        for (int i = 0; i < n; ++i)
-#        {
-#            int x, y;
-#            long long z;
-#            cin >> x >> y >> z;
-#            x--;
-#            y--;
-#            v[x][y] = z;
-#            fixed[x][y] = true;
-#        }
-#
-#       """
-#a, b = predict_svc(sourcecode)
-#
-#print(type)
-#print(type(b))

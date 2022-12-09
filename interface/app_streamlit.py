@@ -106,8 +106,8 @@ with col3:
     st.write("")
 
 st.sidebar.markdown(" # About")
-st.sidebar.markdown("This aplication uses deep learning models to predict the true author of a sample of code based on its stylometry.")
-st.sidebar.markdown("Such models were trained with source code extracted from Google Code Jam - a very famous coding competition.")
+st.sidebar.markdown("This aplication is intended to showcase how machine/deep learning models can be used to determine the true author of a sample of code based solely on its style (stylometry).")
+st.sidebar.markdown("Our models were trained with source code extracted from a famous coding competition (Google Code Jam).")
 st.sidebar.markdown(" # Created by")
 col1, col2 = st.sidebar.columns([1,1])
 with col1:

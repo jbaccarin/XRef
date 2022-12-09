@@ -100,7 +100,8 @@ col1, col2, col3 = st.sidebar.columns([1,2,1])
 with col1:
     st.write("")
 with col2:
-    st.image('figures/x.png',  use_column_width=True)
+    st.write('<img width=150 src="https://i.insider.com/5696abd2e6183efa428b645b?width=750&format=png">', unsafe_allow_html=True)
+    # st.image('figures\\x.png',  use_column_width=True)
 with col3:
     st.write("")
 

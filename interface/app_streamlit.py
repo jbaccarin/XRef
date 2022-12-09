@@ -150,10 +150,10 @@ with tab_nn:
     st.markdown('''Accuracy on test data: **89%**''')
     st.markdown("---")
     
-    user_input = st.text_area("Enter the code below.", key="nn")
+    user_input = st.text_area("Enter the code below.", key="nn1")
 
     # Find out the author for the given piece of code
-    if st.button('Find out code author', key="nn"):
+    if st.button('Find out code author', key="nn2"):
         with st.spinner('Wait for it...'):
             st.write('Please wait, the author is being identified...')
         params = dict(
@@ -231,10 +231,10 @@ with tab_cnn:
     st.markdown('''Accuracy on test data: **92%**''')
     st.markdown("---")
     
-    user_input = st.text_area("Enter the code below.", key="cnn")    
+    user_input = st.text_area("Enter the code below.", key="cnn1")    
 
     # Find out the author for the given piece of code
-    if st.button('Find out code author', key="cnn"):
+    if st.button('Find out code author', key="cnn2"):
         with st.spinner('Wait for it...'):
             st.write('Please wait, the author is being identified...')
         params = dict(
@@ -315,10 +315,10 @@ with tab_svc:
     st.markdown('''Accuracy on test data: **85%**''')
     st.markdown("---")
 
-    user_input = st.text_area("Enter the code below.", key="svc")   
+    user_input = st.text_area("Enter the code below.", key="svc1")   
 
     # Find out the author for the given piece of code
-    if st.button('Find out code author', key="svc"):
+    if st.button('Find out code author', key="svc2"):
         with st.spinner('Wait for it...'):
             st.write('Please wait, the author is being identified...')
         params = dict(

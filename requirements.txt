@@ -30,11 +30,11 @@ typing
 httpx
 pytest-asyncio
 
-
 entrypoints
 gensim
 ipykernel
 matplotlib
+plotly==5.11.0
 nltk
 pickleshare
 requests

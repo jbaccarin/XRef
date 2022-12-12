@@ -1,5 +1,5 @@
 #FROM python:3.8.12-buster
-FROM --platform=linux/amd64 tensorflow/tensorflow:2.10.0
+FROM tensorflow/tensorflow:2.10.0
 COPY api /api
 COPY requirements.txt /requirements.txt
 COPY scripts /scripts

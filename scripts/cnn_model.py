@@ -157,13 +157,13 @@ def predict_cnn(code:str):
     print(Fore.BLUE + "\nPredict author..." + Style.RESET_ALL)
 
     # Load model
-    model = pickle.load(open("models/tfidf_cnn.pkl","rb"))
+    model = pickle.load(open("models/cnn_model.pkl","rb"))
 
     # load tfdidf vectorizer
-    tfidf_vectorizer = pickle.load(open("models/tfidf_vec_cnn.pkl","rb"))
+    tfidf_vectorizer = pickle.load(open("models/cnn_tfidf.pkl","rb"))
 
     # load label_encoder
-    target_encoder = pickle.load(open("models/nn_target_encoder.pkl","rb"))
+    target_encoder = pickle.load(open("models/cnn_labelenc.pkl","rb"))
 
     # tfidf-transform code
     code_tfidf = tfidf_vectorizer.transform([code])

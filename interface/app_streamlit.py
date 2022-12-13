@@ -157,7 +157,7 @@ with tab_nn:
         with st.spinner('Wait for it...'):
             
             st.write('Please wait, the author is being identified...')
-        params = dict(code=user_input[0])
+        params = dict(code=user_input)
         st.write(params)
 
         

@@ -175,7 +175,9 @@ with tab_nn:
         payload = {'code': json.loads(user_input)}
         headers={'Content-Type': 'application/json'}
         
-        response = requests.get(predict_url_nn, headers=headers, data=json.dumps(payload)).json()
+        response = requests.get(predict_url_nn, headers=headers, data=json.dumps(payload))
+        res = response.text.encode('utf8')
+        st.write(res)
         
         res = response["author"]
         proba = response["probabilities"]

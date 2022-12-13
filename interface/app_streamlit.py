@@ -15,7 +15,7 @@ st.set_page_config(page_title="Xref - Code Authorship Attribution", page_icon="�
 ##  Load and Prep Data                  ##
 ##########################################
 
-base_url = 'https://xref-app-tf3z57rlzq-ew.a.run.app'
+base_url = 'https://xref-cloud-app-tf3z57rlzq-ew.a.run.app/'
 
 ##########################################
 ##  Style and Formatting                ##
@@ -477,13 +477,288 @@ with tab_sample:
     st.markdown("""*Note: Yes, we did make sure these samples are only available on our test dataset.""") 
                 
         
-col1, col2, col3 = st.columns([1,1,1])
-with col1:
-    st.markdown("##### **Author:** xlknceje")
-    st.code("kjbjhazjhvaz ,jnasjv akjah∫vå")
-with col2:
-    st.markdown("**Author:** xlknceje")
-    st.code("kjbjhazjhvaz ,jnasjv akjah∫vå")
-with col3:
-    st.markdown("**Author:** xlknceje")
-    st.code("kjbjhazjhvaz ,jnasjv akjah∫vå")
+    col1, col2, col3 = st.columns([1,1,1])
+    with col1:
+        code1 = """import java.io.*;
+ import java.util.*;
+ 
+ public class Solution implements Runnable {
+ 
+ 	private BufferedReader in;
+ 	private StringTokenizer st;
+ 	private PrintWriter out;
+ 	private int[] p;
+ 	
+ 	private void solve() throws IOException {
+ 		int tests = nextInt();
+ 		for (int test = 1; test <= tests; ++test) {
+ 			int k = nextInt();
+ 			char[] s = next().toCharArray();
+ 			int[][] diff = new int[k][k];
+ 			for (int i = 0; i < s.length; i += k) {
+ 				for (int u = 0; u < k; ++u) {
+ 					for (int v = 0; v < k; ++v) {
+ 						diff[u][v] += s[i + u] != s[i + v] ? 1 : 0;
+ 					}
+ 				}
+ 			}
+ 			int[][] diff2 = new int[k][k];
+ 			for (int i = 0; i < s.length - k; i += k) {
+ 				for (int u = 0; u < k; ++u) {
+ 					for (int v = 0; v < k; ++v) {
+ 						diff2[u][v] += s[i + u] != s[i + k + v] ? 1 : 0;
+ 					}
+ 				}
+ 			}
+ 			int[][][] d = new int[1 << k][k][k];
+ 			for (int[][] ar : d) {
+ 				for (int[] br : ar) {
+ 					Arrays.fill(br, s.length + 1);
+ 				}
+ 			}
+ 			for (int u = 0; u < k; ++u) {
+ 				d[1 << u][u][u] = 0;
+ 			}
+ 			for (int m = 0; m < 1 << k; ++m) {
+ 				for (int u = 0; u < k; ++u) {
+ 					for (int v = 0; v < k; ++v) {
+ 						if (d[m][u][v] == s.length + 1) {
+ 							continue;
+ 						}
+ 						for (int w = 0; w < k; ++w) {
+ 							if ((m & (1 << w)) != 0) {
+ 								continue;
+ 							}
+ 							d[m ^ (1 << w)][u][w] = Math.min(d[m ^ (1 << w)][u][w], d[m][u][v] + diff[v][w]);
+ 						}
+ 					}
+ 				}
+ 			}
+ 			int ans = s.length + 1;
+ 			for (int u = 0; u < k; ++u) {
+ 				for (int v = 0; v < k; ++v) {
+ 					ans = Math.min(ans, d[(1 << k) - 1][u][v] + diff2[v][u] + 1);
+ 				}
+ 			}
+ 			out.println("Case #" + test + ": " + ans);
+ 		}
+ 	}
+ 
+ 	private int rec(int i, int k, char[] s) {
+ 		if (i == k) {
+ 			char[] ss = new char[s.length];
+ 			for (int a = 0; a < s.length; a += k) {
+ 				for (int b = 0; b < k; ++b) {
+ 					ss[a + b] = s[a + p[b]];
+ 				}
+ 			}
+ 			int res = 1;
+ 			for (int a = 0; a < ss.length - 1; ++a) {
+ 				if (ss[a] != ss[a + 1]) {
+ 					res++;
+ 				}
+ 			}
+ 			return res;
+ 		}
+ 		int res = Integer.MAX_VALUE;
+ 		loop: for (p[i] = 0; p[i] < k; ++p[i]) {
+ 			for (int j = 0; j < i; ++j) {
+ 				if (p[i] == p[j]) {
+ 					continue loop;
+ 				}
+ 			}
+ 			res = Math.min(res, rec(i + 1, k, s));
+ 		}
+ 		return res;
+ 	}
+ 
+ 	public void run() {
+ 		try {
+ 			in = new BufferedReader(new InputStreamReader(System.in));
+ 			st = new StringTokenizer("");
+ 			out = new PrintWriter(System.out);
+ 			
+ 			solve();
+ 			
+ 			out.close();
+ 		} catch (Exception ex) {
+ 			ex.printStackTrace();
+ 			System.exit(-1);
+ 		}
+ 	}
+ 	
+ 	String next() throws IOException {
+ 		while (!st.hasMoreTokens()) {
+ 			String line = in.readLine();
+ 			if (line == null) {
+ 				return null;
+ 			}
+ 			st = new StringTokenizer(line);
+ 		}
+ 		return st.nextToken();
+ 	}
+ 	
+ 	int nextInt() throws IOException {
+ 		return Integer.parseInt(next());
+ 	}
+ 	
+ 	double nextDouble() throws IOException {
+ 		return Double.parseDouble(next());
+ 	}
+ 	
+ 	long nextLong() throws IOException {
+ 		return Long.parseLong(next());
+ 	}
+ 	
+ 	public static void main(String[] args) {
+ 		new Thread(new Solution()).start();
+ 	}
+ 
+ 	private void ass(boolean b) {
+ 		if (!b) {
+ 			throw new RuntimeException("Assertion failed");
+ 		}
+ 	}
+ 	
+ 	static final boolean Ъ = true;
+ }"""
+        st.markdown("##### **Code Author:** winger")
+        st.code(code1)
+    with col2:
+        code2 = """#!/usr/local/bin/python
+ import sys, string
+ 
+ 
+ #solve case function
+ def solve_case(nm, lawn, case_number):
+     zipped_lawn = zip(*lawn)
+     for n in range(0, nm[0]):
+         max_lawn_n = max(lawn[n])
+         for m in range(0, nm[1]):
+             max_lawn_m = max(zipped_lawn[m])
+             if lawn[n][m] < max_lawn_n and lawn[n][m] < max_lawn_m:
+                 print "Case #%d: NO" % case_number
+                 return
+ 
+     print "Case #%d: YES" % case_number
+ 
+ 
+ #main
+ def main():
+     r = sys.stdin
+     if len(sys.argv) > 1:
+         r = open(sys.argv[1], 'r')
+ 
+     total_cases = r.readline()
+     for case_number in range(1, int(total_cases) + 1):
+         nm = map(int, r.readline().strip().split(' '))
+         lawn = []
+         for n in range(0, nm[0]):
+             lawn.append(map(int, r.readline().strip().split(' ')))
+         solve_case(nm, lawn, case_number)
+ 
+ # invoke main
+ if __name__ == "__main__":
+     main()"""
+        st.markdown("##### **Code Author:** addie9000")
+        st.code(code2)
+    with col3:
+        code3 = """#include <iostream>
+ #include <sstream>
+ #include <fstream>
+ #include <string>
+ #include <vector>
+ #include <list>
+ #include <set>
+ #include <map>
+ #include <queue>
+ #include <stack>
+ #include <deque>
+ #include <complex>
+ #include <algorithm>
+ #include <cstdio>
+ #include <cmath>
+ #include <cstring>
+ 
+ #define REP(i,x) for(int i=0 ; i<(int)(x) ; i++)
+ #define ALL(x) (x).begin(),(x).end()
+ #define LL long long
+ 
+ using namespace std;
+ 
+ vector<int> ll_to_vll(LL N){
+     vector<int> numbers;
+     while(N){
+         numbers.push_back(N%10);
+         N /= 10;
+     }
+     return numbers;
+ }
+ 
+ LL vll_to_ll(vector<int> numbers){
+     LL res = 0;
+     while(!numbers.empty()){
+         res *= 10LL;
+         res += numbers.back();
+         numbers.pop_back();
+     }
+     return res;
+ }
+ 
+ 
+ struct Node{
+     LL n, c, p;
+     Node(){}
+     Node(LL _n,LL _c, LL _p):n(_n),c(_c),p(_p){}
+     bool operator<(const Node &n)const{
+         return c > n.c;
+     }
+ };
+ LL solve(LL N){
+     priority_queue<Node> que;
+ 
+     que.push(Node(0,0, -2));
+ 
+     vector<LL> used(10000000, -1);
+ 
+     LL res = 1LL<<50;
+     while(!que.empty()){
+         Node node = que.top();que.pop();
+         if(used[node.n]!=-1)continue;
+         used[node.n] = node.p;
+         if(node.n==N){
+             res = node.c;
+             LL now = node.n;
+             while(now!=-2){
+                 //if(abs(now-used[now])!=1)cout << now << " " << used[now] << endl;
+                 now = used[now];
+             }
+             break;
+         }
+ 
+ 
+ 
+         LL next = node.n + 1;
+         if(used[next]==-1)que.push(Node(next,node.c+1, node.n));
+ 
+         vector<int> numbers = ll_to_vll(node.n);
+         vector<int> reversed_numbers = numbers;
+         reverse(ALL(reversed_numbers));
+         LL reversed = vll_to_ll(reversed_numbers);
+         if(used[reversed]==-1)que.push(Node(reversed,node.c+1, node.n));
+     }
+     return res;
+ }
+ 
+ int main(){
+     int T;
+     cin >> T;
+     REP(test_case,T){
+         LL N;
+         cin >> N;
+         cout << "Case #" << test_case + 1 << ": " << solve(N) << endl;
+     }
+     return 0;
+ }"""
+        st.markdown("##### **Code Author:** nel215")
+        st.code(code3)

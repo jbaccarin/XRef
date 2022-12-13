@@ -155,10 +155,12 @@ with tab_nn:
     # Find out the author for the given piece of code
     if st.button('Find out code author', key="nn2"):
         with st.spinner('Wait for it...'):
+            
             st.write('Please wait, the author is being identified...')
         params = dict(code=[user_input])
+        st.write(params)
 
-        print(params)
+        
         print('Author is being identified')
         st.write(" ")
         st.write(" ")

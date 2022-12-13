@@ -157,7 +157,7 @@ with tab_nn:
         with st.spinner('Wait for it...'):
             
             st.write('Please wait, the author is being identified...')
-        params = dict(code=user_input)
+        params = dict(code=[user_input])
         
         
         print('Author is being identified')
@@ -366,19 +366,6 @@ with tab_svc:
 
         st.write(" ")
         st.write(" ")
-
-        # Calculate and show tfidf terms
-        #st.subheader("Most important terms identified by tf-idf vectorizer:")
-        top_terms_dict = response["top_terms"]
-        topterms = pd.DataFrame.from_dict(top_terms_dict, orient='index')
-        topterms.rename({0:'Tfidf'},inplace=True,axis=1)
-        topterms = topterms.reset_index()
-        topterms.rename({'index':'Term'},inplace=True,axis=1)
-        #st.table(data = topterms)
-        fig=px.bar(topterms,x='Term',y='Tfidf', orientation='v', title='<span style="font-size: 30px;">Most important terms identified by tf-idf vectorizer</span>')
-        fig.update_layout(height=400, width = 770, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-
-        st.plotly_chart(fig)
 
 
 

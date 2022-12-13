@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from scripts.svc_model import predict_svc
 from scripts.cnn_model import predict_cnn
 from scripts.nn_model import predict_nn
+import json
 
 app = FastAPI()
 

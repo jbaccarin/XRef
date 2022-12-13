@@ -94,7 +94,7 @@ st.title("XRef_")
 st.markdown('''##### <span style="color:gray">Code Authorship Attribution</span>
             ''', unsafe_allow_html=True)
 
-tab_nn, tab_cnn, tab_svc, tab_faq = st.tabs(["NN Model", "CNN Model", "SVC Model", "FAQ"])
+tab_nn, tab_cnn, tab_svc, tab_faq, tab_sample = st.tabs(["NN Model", "CNN Model", "SVC Model", "FAQ", "Sample Code"])
 
 col1, col2, col3 = st.sidebar.columns([1,2,1])
 with col1:
@@ -464,3 +464,26 @@ with tab_faq:
         st.write(''' ''', unsafe_allow_html=True)
         st.write('''Glad you asked! 🤓 It's all on our [Github](https://github.com/jbaccarin/xref)''', unsafe_allow_html=True)
         st.write(''' ''', unsafe_allow_html=True)
+        
+        
+        
+##########################################
+## Sample Code Tab                      ##
+##########################################
+
+with tab_sample:
+    st.markdown(" ### Some code samples for testing 🛠️ ")
+    st.markdown("""Click on the top right hand corner of each code sample to copy, then paste it into one of our models and test them.""")
+    st.markdown("""*Note: Yes, we did make sure these samples are only available on our test dataset.""") 
+                
+        
+col1, col2, col3 = st.columns([1,1,1])
+with col1:
+    st.markdown("##### **Author:** xlknceje")
+    st.code("kjbjhazjhvaz ,jnasjv akjah∫vå")
+with col2:
+    st.markdown("**Author:** xlknceje")
+    st.code("kjbjhazjhvaz ,jnasjv akjah∫vå")
+with col3:
+    st.markdown("**Author:** xlknceje")
+    st.code("kjbjhazjhvaz ,jnasjv akjah∫vå")

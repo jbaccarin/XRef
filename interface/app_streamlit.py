@@ -158,6 +158,7 @@ with tab_nn:
         with st.spinner('Wait for it...'):
             st.write('Please wait, the author is being identified...')
         params = dict(code=str(user_input))
+        st.code(params)
         
         print('Author is being identified')
         st.write(" ")
@@ -169,14 +170,10 @@ with tab_nn:
         # proba = ""
         
         path_nn = "predict_with_nn"
-        # predict_url_nn = urljoin(base_url, path_nn)
-        predict_url_nn = "https://xref-cloud-app-tf3z57rlzq-ew.a.run.app/predict_with_nn?code=aa"
-        # payload = {'code': json.loads(user_input)}
-        # headers={'Content-Type': 'application/json'}
+        predict_url_nn = urljoin(base_url, path_nn)
         
-        response = requests.get(predict_url_nn,params)
-        res = response.text.encode('utf8')
-        st.write(res)
+        response = requests.get(predict_url_nn,params).json()
+        st.write(response.url)
         
         res = response["author"]
         proba = response["probabilities"]

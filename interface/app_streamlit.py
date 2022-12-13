@@ -173,7 +173,7 @@ with tab_nn:
         path_nn = "predict_with_nn"
         predict_url_nn = urljoin(base_url, path_nn)
         
-        response = requests.get(predict_url_nn, params).json()
+        response = requests.get(predict_url_nn, params["code"]).json()
         res = response["author"]
         proba = response["probabilities"]
         st.success('Done!')

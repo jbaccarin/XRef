@@ -249,9 +249,9 @@ with tab_cnn:
         st.write(" ")
         
         #Calling API
-        response = None
-        res = None
-        proba = None
+        # response = None
+        # res = None
+        # proba = None
         
         path_cnn = "predict_with_cnn"
         predict_url_cnn = urljoin(base_url, path_cnn)
@@ -332,9 +332,9 @@ with tab_svc:
         st.write(" ")
 
         #Calling API
-        response = None
-        res = None
-        proba = None
+        # response = None
+        # res = None
+        # proba = None
         
         path_svc = "predict_with_svc"
         predict_url_svc = urljoin(base_url, path_svc)

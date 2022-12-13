@@ -158,22 +158,24 @@ with tab_nn:
             
             st.write('Please wait, the author is being identified...')
         params = dict(code=user_input)
-        st.write(params)
-
+        
         
         print('Author is being identified')
         st.write(" ")
         st.write(" ")
 
         # Calling API
-        # response = ""
-        # res = ""
-        # proba = ""
+        response = ""
+        res = ""
+        proba = ""
         
         path_nn = "predict_with_nn"
         predict_url_nn = urljoin(base_url, path_nn)
         
         response = requests.get(predict_url_nn, params).json()
+        st.write(response.url)
+        print(response.url)
+        
         res = response["author"]
         proba = response["probabilities"]
         st.success('Done!')

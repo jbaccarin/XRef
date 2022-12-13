@@ -32,11 +32,11 @@ def predict_cnn_api(code:str):
     return {'author': author, 'probabilities': prob, 'top_terms': tfidf_df}
 
 @app.get('/predict_with_nn')
-def predict_nn_api(code:dict):
+def predict_nn_api(code:str):
     """
     Accepts a piece of code as an input, to predict its author as a return.
     :param code: a given peace of code.
     :return: returns an array containing one or more predictions of authors for the given peaces of code
     """
-    author, prob, tfidf_df = predict_nn(code["code"])
+    author, prob, tfidf_df = predict_nn(code)
     return {'author': author, 'probabilities': prob, 'top_terms': tfidf_df}

@@ -153,13 +153,11 @@ with tab_nn:
     
     user_input = st.text_area("Enter the code below.", key="nn1")
 
-
-
     # Find out the author for the given piece of code
     if st.button('Find out code author', key="nn2"):
         with st.spinner('Wait for it...'):
             st.write('Please wait, the author is being identified...')
-        params = dict(code=[user_input])
+        params = dict(code=str(user_input))
         
         print('Author is being identified')
         st.write(" ")

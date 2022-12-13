@@ -8,6 +8,7 @@ import os
 import requests
 import plotly.express as px
 from urllib.parse import urljoin
+import json
 
 st.set_page_config(page_title="Xref - Code Authorship Attribution", page_icon="⚙️", initial_sidebar_state="expanded")
 
@@ -152,25 +153,29 @@ with tab_nn:
     
     user_input = st.text_area("Enter the code below.", key="nn1")
 
+
+
     # Find out the author for the given piece of code
     if st.button('Find out code author', key="nn2"):
         with st.spinner('Wait for it...'):
             st.write('Please wait, the author is being identified...')
-        params = dict(code=[user_input])
+        # params = dict(code=[user_input])
         
         print('Author is being identified')
         st.write(" ")
         st.write(" ")
 
         # Calling API
-        # response = ""
-        # res = ""
-        # proba = ""
+        response = ""
+        res = ""
+        proba = ""
         
         path_nn = "predict_with_nn"
         predict_url_nn = urljoin(base_url, path_nn)
+        payload = {'code': json.loads(user_input)}
+        headers={'Content-Type': 'application/json'}
         
-        response = requests.get(predict_url_nn, params).json()
+        response = requests.get(predict_url_nn, headers=headers, data=json.dumps(payload)).json()
         
         res = response["author"]
         proba = response["probabilities"]
@@ -245,9 +250,9 @@ with tab_cnn:
         st.write(" ")
         
         #Calling API
-        # response = None
-        # res = None
-        # proba = None
+        response = None
+        res = None
+        proba = None
         
         path_cnn = "predict_with_cnn"
         predict_url_cnn = urljoin(base_url, path_cnn)
@@ -328,9 +333,9 @@ with tab_svc:
         st.write(" ")
 
         #Calling API
-        # response = None
-        # res = None
-        # proba = None
+        response = None
+        res = None
+        proba = None
         
         path_svc = "predict_with_svc"
         predict_url_svc = urljoin(base_url, path_svc)
@@ -362,10 +367,6 @@ with tab_svc:
 
         st.write(" ")
         st.write(" ")
-
-
-
-
 
 ##########################################
 ## FAQ Tab                              ##

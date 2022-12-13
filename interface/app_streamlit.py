@@ -173,8 +173,6 @@ with tab_nn:
         predict_url_nn = urljoin(base_url, path_nn)
         
         response = requests.get(predict_url_nn, params).json()
-        st.write(response.url)
-        print(response.url)
         
         res = response["author"]
         proba = response["probabilities"]

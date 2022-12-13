@@ -15,16 +15,6 @@ import time
 import pickle
 from colorama import Fore, Style
 import os
-# from sklearn.naive_bayes import MultinomialNB
-# from sklearn.metrics import recall_score
-# from sklearn.model_selection import cross_validate
-# from sklearn.model_selection import cross_val_score
-# from sklearn.metrics import recall_score 
-# from sklearn.metrics import accuracy_score
-# from hyperopt import STATUS_OK, Trials, fmin, hp, tpe
-# import matplotlib.pyplot as plt
-# from sklearn.datasets import make_classification
-# from sklearn.metrics import plot_confusion_matrix
 
 
 def preprocess_data(data:pd.DataFrame)->pd.DataFrame:

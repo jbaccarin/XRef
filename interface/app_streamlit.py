@@ -166,9 +166,9 @@ with tab_nn:
         st.write(" ")
 
         # Calling API
-        response = ""
-        res = ""
-        proba = ""
+        # response = ""
+        # res = ""
+        # proba = ""
         
         path_nn = "predict_with_nn"
         predict_url_nn = urljoin(base_url, path_nn)

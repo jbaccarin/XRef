@@ -1,5 +1,5 @@
-#FROM python:3.8.12-buster
-FROM tensorflow/tensorflow:2.10.0
+FROM python:3.10.6
+# FROM tensorflow/tensorflow:2.10.0
 
 COPY api /api
 COPY requirements.txt /requirements.txt

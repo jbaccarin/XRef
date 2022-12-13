@@ -1,17 +1,9 @@
-# packaging
-pip>=9
-setuptools>=26
-twine
-wheel>=0.29
-
 # data science
-numpy
-pandas
-scikit-learn
-
-#tensorflow
-scikit-optimize
-hyperopt
+numpy==1.23.4
+pandas==1.4.4
+scikit-learn==1.1.2
+tensorflow==2.10.0
+keras==2.10.0
 
 # API
 fastapi
@@ -40,4 +32,4 @@ requests
 scipy
 seaborn
 streamlit
-google-cloud-core >= 1.5.0
+google-cloud-core==2.3.2

@@ -29,7 +29,6 @@ typing
 # tests
 httpx
 pytest-asyncio
-
 entrypoints
 gensim
 ipykernel

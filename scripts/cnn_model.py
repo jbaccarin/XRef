@@ -1,18 +1,10 @@
 import numpy as np
 import pandas as pd
-from sklearn import preprocessing
-from sklearn.model_selection import cross_validate
-from sklearn.pipeline import make_pipeline
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import recall_score
-from sklearn.model_selection import cross_val_score
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
-from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.python.keras.callbacks import EarlyStopping
-from tensorflow.python.keras import Model, Sequential, layers, regularizers, optimizers
+from tensorflow.python.keras import Model, Sequential, layers
 from tensorflow.keras.utils import to_categorical
 from colorama import Fore, Style
 import pickle

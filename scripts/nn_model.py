@@ -1,18 +1,10 @@
 import numpy as np
 import pandas as pd
-from sklearn import preprocessing
-from sklearn.model_selection import cross_validate
-from sklearn.pipeline import make_pipeline
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import recall_score
-from sklearn.model_selection import cross_val_score
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
-from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.python.keras.callbacks import EarlyStopping
-from tensorflow.python.keras import Model, Sequential, layers, regularizers, optimizers
+from tensorflow.python.keras import Model, Sequential, layers
 from tensorflow.keras.utils import to_categorical
 from colorama import Fore, Style
 import pickle
@@ -295,73 +287,3 @@ def load_model(save_copy_locally=False) -> Model:
     print("\n✅ model loaded from disk")
 
     return model
-
-
-
-# read data
-#data= pd.read_csv('raw_data/preprocessed_dataset.csv')[:1000]
-#X = data["code_source"]
-#y = label_encode(y = data["username"])
-#data_tokenized, vocab_size = tokenize(X = X)
-#print(data_tokenized)
-#print(vocab_size)##
-
-#model = initialize_model(X_pad=data_tokenized,
-#                         y = y,
-#                         vocab_size = vocab_size)
-
-
-#compile_model(model = model)
-
-
-#model, history = train_model(model = model,
-#                X_pad = data_tokenized,
-#                y = y)
-
-#save_model(model = model)
-
-#metrics = evaluate_model(model= model,
-#                   X= X_test,
-#                   y= y_test,
-#                   batch_size=64)
-
-#sourcecode = """
-#
-#    }
-#}
-#
-#int main()
-#{
-#    int T;
-#
-#    cin >> T;
-#    for (int ct = 0; ct < T; ++ct)
-#    {
-#        int r, c, n, d;
-#        cin >> r >> c >> n >> d;
-#        vector<vector<long long>> v(r, vector<long long>(c, 1000000000000000000ll));
-#        vector<vector<bool>> fixed(r, vector<bool>(c, false));
-#
-#        for (int i = 0; i < n; ++i)
-#        {
-#            int x, y;
-#            long long z;
-#            cin >> x >> y >> z;
-#            x--;
-#            y--;
-#            v[x][y] = z;
-#            fixed[x][y] = true;
-#        }
-#
-#       """
-#
-#a, b, c = predict_nn(sourcecode)
-#print(c)
-#print(type(a))
-#print(type(b))
-#print(type(c))
-
-#data = pd.read_csv('raw_data/preprocessed_dataset.csv')
-#target_encoder = LabelEncoder().fit(data['username'])
-#y = target_encoder.transform(data['username'])
-#pickle.dump(target_encoder, open(os.path.join(os.getcwd(),'models/nn_target_encoder.pkl'), 'wb'))

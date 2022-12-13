@@ -192,6 +192,7 @@ def predict_cnn(code:str):
     print(f"\n✅ Prediction done!")
     print(prediction)
     print(top5)
+    print(tfidf_dict)
 
     return str(prediction[0]) , top5, tfidf_dict
     # return prediction_inversed

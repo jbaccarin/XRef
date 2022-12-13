@@ -155,10 +155,8 @@ with tab_nn:
     # Find out the author for the given piece of code
     if st.button('Find out code author', key="nn2"):
         with st.spinner('Wait for it...'):
-            
             st.write('Please wait, the author is being identified...')
         params = dict(code=[user_input])
-        
         
         print('Author is being identified')
         st.write(" ")
@@ -177,6 +175,7 @@ with tab_nn:
         res = response["author"]
         proba = response["probabilities"]
         st.success('Done!')
+        
         # Return result
         st.subheader(f"The predicted author is {res}!")
 
@@ -241,7 +240,6 @@ with tab_cnn:
             st.write('Please wait, the author is being identified...')
         params = dict(code=[user_input])
 
-        print(params)
         print('Author is being identified')
         st.write(" ")
         st.write(" ")
@@ -255,10 +253,10 @@ with tab_cnn:
         predict_url_cnn = urljoin(base_url, path_cnn)
         
         response = requests.get(predict_url_cnn, params).json()
+        
         res = response["author"]
         proba = response["probabilities"]
         st.success('Done!')
-        
         
         # Return result
         st.subheader(f"The predicted author is {res}!")
